@@ -1,0 +1,103 @@
+
+<div class="top-margin container">
+  <div class="row">
+    <div class="col-4">
+      <img style="width: 300px" src="{{Kid.pictureUrl}}"/>
+    </div>
+    <div class="col-8">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1>{{Kid.name}}</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <b>Edad:</b> {{Kid.age}}
+          </div>
+          <div class="col-sm-4">
+            <b>Barrio:</b> {{Kid.area}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <b>Regalo:</b> {{Kid.present.name}}
+          </div>
+          <div class="col-sm-3">
+            <b>Monto:</b> $ {{Kid.present.cost}}
+          </div>
+          <div class="col-sm-5">
+            <b>Negocio:</b> {{Kid.present.shopName}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>Nota:</b> {{Kid.note}}
+          </div>
+        </div>
+      </div>
+      <!-- Form -->
+      <div class="form-container">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="inputFullName"><b>Nombre y apellido</b></label>
+          <input (change)="updateButtonEnabling()" type="text" class="form-control" id="inputFullName"
+                 [(ngModel)]="presentGiver.name">
+        </div>
+        <div class="row">
+          <!-- E-mail -->
+          <div class="col-6">
+            <div class="form-group">
+              <label for="inputEmail"><b>Correo electronico</b></label>
+              <input (change)="updateButtonEnabling()" type="email" class="form-control" id="inputEmail"
+                     [(ngModel)]="presentGiver.contantEmail">
+            </div>
+          </div>
+          <!-- Phone -->
+          <div class="col-6">
+            <div class="form-group">
+              <label for="inputPhoneNumber"><b>Numero de telefono</b></label>
+              <input (change)="updateButtonEnabling()" type="text" class="form-control" id="inputPhoneNumber"
+                     [(ngModel)]="presentGiver.contactPhone">
+            </div>
+          </div>
+        </div>
+        <!-- Message -->
+        <div class="form-group">
+          <label for="inputLetter"><b>Mensaje para mi ahijado/a</b></label>
+          <textarea (change)="updateButtonEnabling()" class="form-control" id="inputLetter" rows="5"
+                    [(ngModel)]="presentGiver.letter"></textarea>
+        </div>
+        <!-- How to donate -->
+        <div class="form-check">
+          <input class="form-check-input" (click)="optionSelected(1)"
+                 [checked]="mercadoPagoSelected" type="radio"
+                 name="mercadoPago" id="mercadoPagoRadio" value="1" checked>
+          <label class="form-check-label" for="mercadoPagoRadio">
+            Mercado Pago
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" (click)="optionSelected(2)"
+                 [checked]="cashWireSelected" type="radio"
+                 name="cashWire" id="cashWireTransferRadio" value="2" checked>
+          <label class="form-check-label" for="cashWireTransferRadio">
+            Efectivo o transferencia bancaria
+          </label>
+        </div>
+
+        <div class="form-group" *ngIf="mercadoPagoSelected">
+          <label>
+            Link de pago
+          </label>
+          <br/>
+          <img style="width: 400px;" src="https://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png"/>
+        </div>
+
+        <div class="button-margin">
+          <button type="button" class="btn btn-primary" [disabled]="submitButtonDisabled" (click)="submitForm()">Quiero apadrinar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {ChristmasPresentsService} from './christmas-presents.service';
+import {Kid} from './kid/kid';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,28 @@
+
+<div class="col" style="margin-top: 50px;">
+  <div class="row">
+    <div *ngFor="let kid of kids" (click)="goToKidDetails(kid)" class="col-sm-6 col-lg-4 mb-4">
+      <div class="kid-list kid-grid">
+        <div class="kid-list-image">
+          <img class="img-fluid" src="{{kid.pictureUrl}}" alt="">
+        </div>
+        <div class="kid-list-details">
+          <div class="kid-list-info">
+            <div class="kid-list-title">
+              <h5>{{kid.name}}</h5>
+            </div>
+            <div class="kid-list-option">
+              <ul class="list-unstyled">
+                <li><i class="fas fa-filter pr-1"></i>{{kid.age}}</li>
+                <li><i class="fas fa-map-marker-alt pr-1"></i>{{kid.area}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="kid-list-favourite-time">
+            {{kid.present.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
