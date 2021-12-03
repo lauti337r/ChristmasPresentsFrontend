@@ -69,6 +69,7 @@ export class AdminKidsComponent implements OnInit {
     this.FormKid = selectedKid;
     this.action = 'Editar';
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log(result);
       this.presentsService.updateKid(this.FormKid).subscribe((response: any) => {
         console.log(response);
       });
@@ -76,6 +77,18 @@ export class AdminKidsComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  hideKid(selectedKid: Kid) {
+    this.presentsService.hideKid(selectedKid.kidId).subscribe((response: any) => {
+      selectedKid.hidden = 1;
+    });
+  }
+
+  unhideKid(selectedKid: Kid) {
+    this.presentsService.unhideKid(selectedKid.kidId).subscribe((response: any) => {
+      selectedKid.hidden = 0;
     });
   }
 
@@ -112,7 +125,10 @@ export class AdminKidsComponent implements OnInit {
     this.Kids = _.cloneDeep(this.Kids.sort((k1: Kid, k2: Kid) => {
       let result: number;
 
-      if (column == 'present') {
+      if (column == 'number') {
+        result = compare (k1.number, k2.number);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'present') {
         result = compare(k1.present.name, k2.present.name);
         return direction === 'asc' ? result : -result;
       } else if (column == 'name') {

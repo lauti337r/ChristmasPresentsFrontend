@@ -2,6 +2,7 @@ import {Present} from './present';
 
 export class Kid {
   public kidId: number = 0;
+  public number: number = 0;
   public name: string = '';
   public age: string = '';
   public area: string = '';

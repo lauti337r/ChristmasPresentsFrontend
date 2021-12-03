@@ -26,6 +26,7 @@
       <th scope="col" sortable="paymentMethod" (sort)="onSort($event)">Metodo de pago</th>
       <th scope="col" sortable="kidName" (sort)="onSort($event)">Apadrinado</th>
       <th scope="col" sortable="kidArea" (sort)="onSort($event)">Barrio</th>
+      <th scope="col" sortable="paymentMade" (sort)="onSort($event)">Pago completado</th>
     </tr>
     </thead>
     <tbody>
@@ -35,9 +36,13 @@
       <td>{{giver.contactPhone}}</td>
       <td>{{giver.contactEmail}}</td>
       <td><button type="button" class="btn btn-secondary" (click)="showLetter(content, giver.letter)">Ver carta</button></td>
-      <td>{{giver.paymentMethod}}</td>
+      <td>{{giver.paymentMethod == 'EFECTIVO_TRANSFERENCIA' ? 'Efectivo/Transferencia' : giver.paymentMethod == 'MERCADOPAGO' ? 'Mercado pago' : 'REVISAR'}}</td>
       <td>{{giver.present.kid.name}}</td>
       <td>{{giver.present.kid.area}}</td>
+      <td>
+          <button *ngIf="giver.paymentMade == 1" type="button" class="btn btn-danger button-margin" (click)="unsetPayment(giver)">Desmarcar el pago</button>
+          <button *ngIf="giver.paymentMade == 0" type="button" class="btn btn-success button-margin" (click)="setPayment(giver)">Marcar el pago</button>
+      </td>
     </tr>
     </tbody>
   </table>

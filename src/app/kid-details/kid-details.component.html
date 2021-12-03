@@ -1,7 +1,12 @@
 
 <div class="top-margin container">
   <div class="row">
+    <div class="col-2">
+    </div>
+  </div>
+  <div class="row">
     <div class="col-4">
+      <button type="button" class="btn btn-danger button-margin" (click)="clickBack()"> < Volver atras</button>
       <img style="width: 300px" src="{{Kid.pictureUrl}}"/>
     </div>
     <div class="col-8">
@@ -12,27 +17,26 @@
           </div>
         </div>
         <div class="row">
+          <!--
           <div class="col-sm-4">
             <b>Edad:</b> {{Kid.age}}
           </div>
-          <div class="col-sm-4">
+          -->
+          <div class="col-12">
             <b>Barrio:</b> {{Kid.area}}
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-6">
             <b>Regalo:</b> {{Kid.present.name}}
           </div>
-          <div class="col-sm-3">
-            <b>Monto:</b> $ {{Kid.present.cost}}
-          </div>
-          <div class="col-sm-5">
-            <b>Negocio:</b> {{Kid.present.shopName}}
+          <div class="col-6">
+            <b>Valor del regalo:</b> $ {{Kid.present.cost}}
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <b>Nota:</b> {{Kid.note}}
+          <div class="col-12">
+            Este regalo se va a comprar en <i><b>{{Kid.present.shopName}}</b></i>
           </div>
         </div>
       </div>
@@ -95,9 +99,25 @@
         </div>
 
         <div class="button-margin">
-          <button type="button" class="btn btn-primary" [disabled]="submitButtonDisabled" (click)="submitForm()">Quiero apadrinar</button>
+          <button type="button" class="btn btn-primary" [disabled]="submitButtonDisabled" (click)="submitForm(content)">Quiero apadrinar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Carta</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p> Muchas gracias! Nos vamos a contactar con vos. </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>

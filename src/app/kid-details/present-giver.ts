@@ -7,5 +7,6 @@ export class PresentGiver {
   public contactEmail: string = '';
   public letter: string = '';
   public paymentMethod: string = '';
+  public paymentMade: number = 0;
   public present: Present = new Present();
 }

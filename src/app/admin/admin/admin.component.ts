@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {ChristmasPresentsService} from '../../christmas-presents.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,9 +9,12 @@ import {Router} from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private apiService: ChristmasPresentsService) { }
 
   ngOnInit(): void {
+    if (!this.apiService.isAuthenticated()) {
+      this.router.navigate(['admin/login']);
+    }
   }
 
   clickKids() {

@@ -114,4 +114,16 @@ export class AdminGiversComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+  setPayment(presentGiver: PresentGiver) {
+    this.presentsService.setPayment(presentGiver.presentGiverId).subscribe((response: any) => {
+      presentGiver.paymentMade = 1;
+    });
+  }
+
+  unsetPayment(presentGiver: PresentGiver) {
+    this.presentsService.unsetPayment(presentGiver.presentGiverId).subscribe((response: any) => {
+      presentGiver.paymentMade = 0;
+    });
+  }
 }

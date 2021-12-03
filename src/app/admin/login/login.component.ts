@@ -18,17 +18,19 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    console.log(123123123);
   }
 
-  login() {
+  async login() {
     let header: string = '';
     header = `Basic ${btoa(`${this.usernameValue}:${this.passwordValue}`)}`;
     console.log(header);
-    let loginSuccess = this.apiService.adminLogin(header);
-    if (!loginSuccess) {
-      this.showIncorrectCredentialsAlert = true;
-    } else {
-      this.router.navigate(['/admin']);
-    }
+    this.apiService.adminLogin(header).then((res) => {
+      if (!res) {
+        this.showIncorrectCredentialsAlert = true;
+      } else {
+        this.router.navigate(['/admin']);
+      }
+    });
   }
 }

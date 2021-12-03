@@ -65,17 +65,22 @@ export class ChristmasPresentsService {
     }
   }
 
-  adminLogin(authHeader: string) {
-    const url = `${this.apiUrl}api/Main/Authenticate`;
-    return this.http.get<boolean>(url, { headers: new HttpHeaders({'Authorization': authHeader})}).subscribe((response: boolean) => {
-      if (response) {
-        this.authHeader = authHeader;
-        localStorage.setItem('authHeader', authHeader);
-        localStorage.setItem('lastRequestDateTime', (new Date()).toISOString());
-        return true;
-      }
-      return false;
-    }, (error) => {return false;});
+  adminLogin(authHeader: string):Promise<boolean> {
+    return new Promise<boolean>((resolve,reject) => {
+      const url = `${this.apiUrl}api/Main/Authenticate`;
+      return this.http.get<boolean>(url, { headers: new HttpHeaders({'Authorization': authHeader})}).subscribe((response: boolean) => {
+        if (response) {
+          this.authHeader = authHeader;
+          localStorage.setItem('authHeader', authHeader);
+          localStorage.setItem('lastRequestDateTime', (new Date()).toISOString());
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }, (error) => {
+        resolve(false);
+      });
+    });
   }
 
   submitGiver(kidId: number, giver: PresentGiver) {
@@ -97,6 +102,34 @@ export class ChristmasPresentsService {
     }
   }
 
+  hideKid(kidId: number): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/Kids/Hide/${kidId}`;
+      return this.http.put(url, null, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
+  unhideKid(kidId: number): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/Kids/Unhide/${kidId}`;
+      return this.http.put(url, null, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
   addKid(kid: Kid): any {
     if (this.isAuthenticated()) {
       let authHeader = localStorage.getItem('authHeader') || '';
@@ -106,6 +139,34 @@ export class ChristmasPresentsService {
 
       const url = `${this.apiUrl}api/Kids`;
       return this.http.post(url, kid, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
+  setPayment(presentGiverId: number): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/PresentGivers/setPayment/${presentGiverId}`;
+      return this.http.put(url,null, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
+  unsetPayment(presentGiverId: number): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/PresentGivers/unsetPayment/${presentGiverId}`;
+      return this.http.put(url, null, headers);
     } else {
       this.router.navigate(['/admin/login']);
     }

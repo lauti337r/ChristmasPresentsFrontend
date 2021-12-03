@@ -9,13 +9,11 @@ import { AdminKidsComponent } from './admin/admin-kids/admin-kids.component';
 import {AdminGiversComponent} from './admin/admin-givers/admin-givers.component';
 
 const routes: Routes = [
-  { path: 'admin/login', component: LoginComponent },
-  { path: 'admin', component:  AdminComponent },
-  { path: 'admin/*', component: LoginComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'admin/login', component:LoginComponent },
   { path: 'chicos/detalle', component: KidDetailsComponent },
-  { path: 'admin/chicos', component: AdminKidsComponent},
-  { path: 'admin/padrinos', component: AdminGiversComponent},
-  { path: '**', redirectTo: 'chicos' },
+  { path: 'admin/chicos', component: AdminKidsComponent },
+  { path: 'admin/padrinos', component: AdminGiversComponent },
   { path: 'chicos', component: KidsListComponent }
 ];
 
