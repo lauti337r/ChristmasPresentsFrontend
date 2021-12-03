@@ -8,4 +8,5 @@ export class Kid {
   public note: string = '';
   public pictureUrl: string = '';
   public present: Present = new Present();
+  public hidden: number = 0;
 }

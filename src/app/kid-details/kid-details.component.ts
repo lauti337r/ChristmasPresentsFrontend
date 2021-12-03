@@ -51,7 +51,7 @@ export class KidDetailsComponent implements OnInit {
 
   updateButtonEnabling() {
     this.submitButtonDisabled = (this.presentGiver.name.trim().length == 0 ||
-                                this.presentGiver.contantEmail.trim().length == 0 ||
+                                this.presentGiver.contactEmail.trim().length == 0 ||
                                 this.presentGiver.contactPhone.trim().length == 0 ||
                                 this.presentGiver.letter.trim().length == 0) ||
                                 (!this.mercadoPagoSelected && !this.cashWireSelected);

@@ -20,7 +20,7 @@ export class KidsListComponent implements OnInit {
   }
 
   private LoadList() {
-    this.apiService.getKidsList().subscribe((response: Kid[]) => {
+    this.apiService.getKidsList(false).subscribe((response: Kid[]) => {
       this.kids = response;
     });
   }

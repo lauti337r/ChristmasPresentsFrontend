@@ -1,11 +1,16 @@
-import {Component, OnInit, PipeTransform} from '@angular/core';
+import {Component, OnInit, PipeTransform, QueryList, ViewChildren} from '@angular/core';
 import {ChristmasPresentsService} from '../../christmas-presents.service';
 import {Kid} from '../../kid/kid';
 import {FormControl} from '@angular/forms';
 import {map, Observable, pipe, startWith} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router';
+import * as _ from 'lodash';
 
+import {NgbdSortableHeader, SortEvent} from '../../shared/sortable-directive';
+
+const compare = (v1: string | number | boolean, v2: string | number | boolean) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 @Component({
   selector: 'app-admin-kids',
@@ -13,34 +18,38 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./admin-kids.component.css']
 })
 export class AdminKidsComponent implements OnInit {
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   closeResult = '';
   private Kids: Kid[];
-  SelectedKid: Kid;
-  TableKids$: Observable<Kid[]>;
-  filter = new FormControl('');
+  FilteredKids: Kid[];
+  FormKid: Kid;
+  filter: string = '';
+  action: string = '';
 
   constructor(private presentsService: ChristmasPresentsService,
               public pipe: DecimalPipe,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private router: Router) {
     this.Kids = [];
-    this.TableKids$ = new Observable<Kid[]>();
-    this.SelectedKid = new Kid();
+    this.FilteredKids = [];
+    this.FormKid = new Kid();
+    this.headers = new QueryList<NgbdSortableHeader>();
   }
 
   ngOnInit(): void {
-    this.presentsService.getKidsList().subscribe((response: Kid[]) => {
-      this.Kids = response;
+    this.loadKids();
+  }
 
-      this.TableKids$ = this.filter.valueChanges.pipe(
-        startWith(''),
-        map(text => this.search(text, this.pipe))
-      );
+  loadKids(): void {
+    this.presentsService.getKidsList(true).subscribe((response: Kid[]) => {
+      this.Kids = response;
+      this.FilteredKids = this.Kids;
     });
   }
 
-  search(text: string, pipe: PipeTransform): Kid[] {
-    return this.Kids.filter(kid => {
-      const term = text.toLowerCase();
+  applyFilter() {
+    this.FilteredKids = this.Kids.filter(kid => {
+      const term = this.filter.toLowerCase();
       return kid.name.toLowerCase().includes(term) ||
         kid.area.toLowerCase().includes(term) ||
         kid.present.name.toLowerCase().includes(term) ||
@@ -48,10 +57,19 @@ export class AdminKidsComponent implements OnInit {
     });
   }
 
+  search() {
+    this.applyFilter();
+  }
+
+  resetSearch() {
+    this.FilteredKids = this.Kids;
+  }
+
   editKid(content: any, selectedKid: Kid) {
-    this.SelectedKid = selectedKid;
+    this.FormKid = selectedKid;
+    this.action = 'Editar';
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.presentsService.updateKid(this.SelectedKid).subscribe((response: any) => {
+      this.presentsService.updateKid(this.FormKid).subscribe((response: any) => {
         console.log(response);
       });
       console.log(result);
@@ -69,5 +87,48 @@ export class AdminKidsComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  clickBack(): void {
+    this.router.navigate(['/admin']);
+  }
+
+  addKid(content: any): void {
+    this.action = 'Agregar';
+    this.FormKid = new Kid();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.presentsService.addKid(this.FormKid).subscribe((response: any) => {
+        this.loadKids();
+      });
+    });
+  }
+
+  onSort({column, direction}: SortEvent) {
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    this.Kids = _.cloneDeep(this.Kids.sort((k1: Kid, k2: Kid) => {
+      let result: number;
+
+      if (column == 'present') {
+        result = compare(k1.present.name, k2.present.name);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'name') {
+        result = compare(k1.name, k2.name);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'area') {
+        result = compare(k1.area, k2.area);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'age') {
+        result = compare(k1.age, k2.age);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'hidden') {
+        result = compare(k1.hidden, k2.hidden);
+        return direction === 'asc' ? result : -result;
+      } else return 1;
+    }));
+    this.applyFilter();
   }
 }

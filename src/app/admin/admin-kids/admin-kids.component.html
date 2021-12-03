@@ -1,34 +1,50 @@
-<form>
-  <div class="form-group form-inline">
-    Buscar: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+<div class="container top-margin">
+  <h1>Chicos</h1>
+  <div class="row">
+    <div class="col-2">
+      <button type="button" class="btn btn-danger button-margin" (click)="clickBack()">Volver atras</button>
+    </div>
+    <div class="col-7">
+      <form>
+        <div class="form-group form-inline">
+          Buscar: <input class="form-control ml-2" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter"/>
+          <button type="button" class="btn btn-info button-margin" (click)="search()">Buscar</button>
+          <button type="button" class="btn btn-info button-margin" (click)="resetSearch()">Reiniciar búsqueda</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+      <button type="button" class="btn btn-success button-margin" (click)="addKid(content)">Agregar chico</button>
+    </div>
   </div>
-</form>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" sortable="name" (sort)="onSort($event)">Nombre</th>
+      <th scope="col" sortable="area" (sort)="onSort($event)">Barrio</th>
+      <th scope="col" sortable="age" (sort)="onSort($event)">Edad</th>
+      <th scope="col" sortable="present" (sort)="onSort($event)">Regalo</th>
+      <th scope="col" sortable="hidden" (sort)="onSort($event)">Apadrinado</th>
+      <th scope="col">Editar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let kid of FilteredKids; index as i">
+      <th scope="row">{{kid.kidId}}</th>
+      <td>{{kid.name}}</td>
+      <td>{{kid.area}}</td>
+      <td>{{kid.age}}</td>
+      <td>{{kid.present.name}}</td>
+      <td>{{kid.hidden == 1 ? 'Si' : 'No'}}</td>
+      <td><button type="button" class="btn btn-secondary" (click)="editKid(content, kid)">Editar</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Nombre</th>
-    <th scope="col">Barrio</th>
-    <th scope="col">Edad</th>
-    <th scope="col">Regalo</th>
-    <th scope="col">Editar</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let kid of TableKids$ | async; index as i">
-    <th scope="row">{{kid.kidId}}</th>
-    <td>
-      <ngb-highlight [result]="kid.name" [term]="filter.value"></ngb-highlight>
-    </td>
-    <td><ngb-highlight [result]="kid.area" [term]="filter.value"></ngb-highlight></td>
-    <td><ngb-highlight [result]="kid.age" [term]="filter.value"></ngb-highlight></td>
-    <td><ngb-highlight [result]="kid.present.name" [term]="filter.value"></ngb-highlight></td>
-    <td><button type="button" class="btn btn-secondary" (click)="editKid(content, kid)"><i class="bi bi-pencil"></i></button></td>
-  </tr>
-  </tbody>
-</table>
 
 
 <!--
@@ -45,7 +61,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Editar chico</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{action}} chico</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -54,27 +70,31 @@
     <form>
       <div class="form-group">
         <label for="inputName">Nombre</label>
-        <input type="text" class="form-control" id="inputName" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.name">
+        <input type="text" class="form-control" id="inputName" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.name">
       </div>
       <div class="form-group">
         <label for="inputAge">Edad</label>
-        <input type="text" class="form-control" id="inputAge" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.age">
+        <input type="text" class="form-control" id="inputAge" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.age">
       </div>
       <div class="form-group">
         <label for="inputArea">Barrio</label>
-        <input type="text" class="form-control" id="inputArea" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.area">
+        <input type="text" class="form-control" id="inputArea" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.area">
       </div>
       <div class="form-group">
         <label for="inputNote">Nota</label>
-        <textarea class="form-control" id="inputNote" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.note" rows="3"></textarea>
+        <textarea class="form-control" id="inputNote" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.note" rows="3"></textarea>
       </div>
       <div class="form-group">
         <label for="inputPresentName">Regalo</label>
-        <input type="text" class="form-control" id="inputPresentName" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.present.name">
+        <input type="text" class="form-control" id="inputPresentName" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.present.name">
+      </div>
+      <div class="form-group">
+        <label for="inputPresentShopName">Negocio</label>
+        <input type="text" class="form-control" id="inputPresentShopName" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.present.shopName">
       </div>
       <div class="form-group">
         <label for="inputPresentCost">Costo</label>
-        <input type="text" class="form-control" id="inputPresentCost" [ngModelOptions]="{standalone: true}" [(ngModel)]="SelectedKid.present.cost">
+        <input type="text" class="form-control" id="inputPresentCost" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.present.cost">
       </div>
     </form>
   </div>

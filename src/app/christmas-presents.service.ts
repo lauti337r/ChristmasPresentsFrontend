@@ -46,9 +46,23 @@ export class ChristmasPresentsService {
     return false;
   }
 
-  getKidsList(): Observable<Kid[]> {
-    const url = `${this.apiUrl}api/Kids`;
+  getKidsList(showHidden: boolean): Observable<Kid[]> {
+    const url = `${this.apiUrl}api/Kids?showHidden=${showHidden.toString()}`;
     return this.http.get<Kid[]>(url);
+  }
+
+  getPresentGiversList(): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/PresentGivers`;
+      return this.http.get<PresentGiver[]>(url);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
   }
 
   adminLogin(authHeader: string) {
@@ -78,6 +92,20 @@ export class ChristmasPresentsService {
 
       const url = `${this.apiUrl}api/Kids/${kid.kidId}`;
       return this.http.put(url, kid, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
+  addKid(kid: Kid): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/Kids`;
+      return this.http.post(url, kid, headers);
     } else {
       this.router.navigate(['/admin/login']);
     }

@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminKidsComponent } from './admin/admin-kids/admin-kids.component';
 import { AdminGiversComponent } from './admin/admin-givers/admin-givers.component';
 import {DecimalPipe} from '@angular/common';
+import {NgbdSortableHeader} from './shared/sortable-directive';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {DecimalPipe} from '@angular/common';
     LoginComponent,
     AdminComponent,
     AdminKidsComponent,
-    AdminGiversComponent
+    AdminGiversComponent,
+    NgbdSortableHeader
   ],
   imports: [
     RouterModule,
