@@ -19,7 +19,7 @@ export class ChristmasPresentsService {
   apiUrl: string;
   authHeader: string = '';
   constructor(private http: HttpClient, private router: Router) {
-    this.apiUrl = 'https://localhost:44357/';
+    this.apiUrl = 'https://sdv-christmas-api.herokuapp.com/';
   }
 
   saveHeader(header: string) {
