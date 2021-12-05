@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,6 +51,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'christmasfrontend'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3E926E9F4D9847488287811AF71D4E3E }}
           package: .
