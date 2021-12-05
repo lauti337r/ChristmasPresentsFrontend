@@ -46,8 +46,8 @@
       <td>{{giver.contactEmail}}</td>
       <td><button type="button" class="btn btn-secondary" (click)="showLetter(content, giver.letter)">Ver carta</button></td>
       <td>{{giver.paymentMethod == 'EFECTIVO_TRANSFERENCIA' ? 'Efectivo/Transferencia' : giver.paymentMethod == 'MERCADOPAGO' ? 'Mercado pago' : 'REVISAR'}}</td>
-      <td>{{giver.present.kid.name}}</td>
-      <td>{{giver.present.kid.area}}</td>
+      <td>{{giver.present?.kid?.name}}</td>
+      <td>{{giver.present?.kid?.area}}</td>
       <td>
           <button *ngIf="giver.paymentMade == 1" type="button" class="btn btn-danger button-margin" (click)="unsetPayment(giver)">Desmarcar el pago</button>
           <button *ngIf="giver.paymentMade == 0" type="button" class="btn btn-success button-margin" (click)="setPayment(giver)">Marcar el pago</button>

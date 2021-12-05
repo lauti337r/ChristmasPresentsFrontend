@@ -112,7 +112,7 @@
         </div>
 
         <div class="button-margin">
-          <button type="button" class="btn btn-primary" [disabled]="submitButtonDisabled" (click)="submitForm(content)">Quiero apadrinar</button>
+          <button type="button" class="btn btn-primary" [disabled]="submitButtonDisabled" (click)="submitForm(content, error315Modal)">Quiero apadrinar</button>
         </div>
       </div>
     </div>
@@ -133,6 +133,21 @@
       ¡Último paso! Para completar el registro envíanos al 3434284676 o 3434714802 el comprobante de pago y nuestros ayudantes de Papá Noel se encargan de ir a los locales a comprar los regalos.
 
       AVISO IMPORTANTE: De ser necesario, solo nos vamos a contactar con vos para pedir información de alguno de estos dos números que son los únicos autorizados para la campaña. </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #error315Modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="315-modal-basic-title">Error</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p> Ese chico ya fue apadrinado! Al hacer click en 'Cerrar' volveras a la pantalla anterior para elegir a otro a quien apadrinar! </p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>

@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ChristmasPresentsService} from './christmas-presents.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { KidDetailsComponent } from './kid-details/kid-details.component';
+import { KidDetailsComponent} from './kid-details/kid-details.component';
 import { KidsListComponent } from './kids-list/kids-list.component';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './admin/login/login.component';
@@ -18,6 +18,7 @@ import { AdminGiversComponent } from './admin/admin-givers/admin-givers.componen
 import {DecimalPipe} from '@angular/common';
 import {NgbdSortableHeader} from './shared/sortable-directive';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import { Error315Component } from './shared/error315/error315.component';
 
 @NgModule({
   declarations: [

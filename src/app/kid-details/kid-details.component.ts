@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import { Kid } from '../kid/kid';
 import {PresentGiver} from './present-giver';
 import {ChristmasPresentsService} from '../christmas-presents.service';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Error315Component} from '../shared/error315/error315.component';
 
 @Component({
   selector: 'app-kid-details',
@@ -12,6 +13,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
   styleUrls: ['./kid-details.component.css']
 })
 export class KidDetailsComponent implements OnInit {
+  @ViewChildren(Error315Component) error315Modal: Error315Component = new Error315Component();
   mercadoPagoSelected: boolean;
   cashWireSelected: boolean;
   Kid: Kid;
@@ -63,7 +65,7 @@ export class KidDetailsComponent implements OnInit {
                                 (!this.mercadoPagoSelected && !this.cashWireSelected);
   }
 
-  submitForm(content: any) {
+  submitForm(content: any, error315Content: any) {
     if (this.mercadoPagoSelected) {
       this.presentGiver.paymentMethod = 'MERCADOPAGO';
     } else if (this.cashWireSelected) {
@@ -76,13 +78,19 @@ export class KidDetailsComponent implements OnInit {
     this.presentsService.submitGiver(this.Kid.kidId, this.presentGiver).subscribe((response: any) => {
       this.spinner.hide('KidDetailsSpinner');
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-          console.log(result);
           this.router.navigate(['chicos']);
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
-      });
+      }, (error) => {
+      if (error.error.code == 415) {
+        this.spinner.hide('KidDetailsSpinner');
+        this.modalService.open(error315Content, {ariaLabelledBy: '315-modal-basic-title'}).result.then((res) => {
+          this.router.navigate(['chicos']);
+        });
+      }
+    });
   }
 
   private getDismissReason(reason: any): string {
