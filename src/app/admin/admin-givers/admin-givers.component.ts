@@ -39,7 +39,12 @@ export class AdminGiversComponent implements OnInit {
   loadGivers(): void {
     this.spinner.show('AdminGiversSpinner');
     this.presentsService.getPresentGiversList().subscribe((response: PresentGiver[]) => {
-      this.Givers = response;
+      this.Givers = response.sort((g1: PresentGiver, g2: PresentGiver) => {
+        if (g1.presentGiverId > g2.presentGiverId) {
+          return -1;
+        } else {
+          return 1;
+        } });
       this.FilteredGivers = this.Givers;
       this.spinner.hide('AdminGiversSpinner');
     });
@@ -54,7 +59,12 @@ export class AdminGiversComponent implements OnInit {
   }
 
   resetSearch() {
-    this.FilteredGivers = this.Givers;
+    this.FilteredGivers = this.Givers.sort((g1: PresentGiver, g2: PresentGiver) => {
+      if (g1.presentGiverId > g2.presentGiverId) {
+        return -1;
+      } else {
+        return 1;
+      } });
   }
 
   applyFilter() {
@@ -79,11 +89,13 @@ export class AdminGiversComponent implements OnInit {
       let result: number;
 
 
-      if (column == 'name') {
+      if (column == 'presentGiverId') {
+        result = compare(g1.presentGiverId, g2.presentGiverId);
+        return direction === 'asc' ? result : -result;
+      } else if (column == 'name') {
         result = compare(g1.name, g2.name);
         return direction === 'asc' ? result : -result;
-      }
-      else if (column == 'paymentMethod') {
+      } else if (column == 'paymentMethod') {
         result = compare(g1.paymentMethod, g2.paymentMethod);
         return direction === 'asc' ? result : -result;
       } else if (column == 'kidName') {

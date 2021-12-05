@@ -27,7 +27,7 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col" sortable="presentGiverId" (sort)="onSort($event)">#</th>
       <th scope="col" sortable="name" (sort)="onSort($event)">Nombre</th>
       <th scope="col">Telefono</th>
       <th scope="col">E-mail</th>
