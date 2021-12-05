@@ -1,3 +1,11 @@
+<ngx-spinner name="KidDetailsSpinner"
+             bdColor="rgba(164, 164, 164, 0.45)"
+             [fullScreen]="true">
+  <div style="background-color: white;border-color:black; border-radius: 5px; border-width: 2px;">
+    <img style="height: calc(10vh);width: calc(10vh);" src='assets/spinner.gif' />
+    <p style="text-align: center;"> Cargando... </p>
+  </div>
+</ngx-spinner>
 
 <div class="top-margin container">
   <div class="row">
@@ -7,7 +15,7 @@
   <div class="row">
     <div class="col-4">
       <button type="button" class="btn btn-danger button-margin" (click)="clickBack()"> < Volver atras</button>
-      <img style="width: 300px" src="{{Kid.pictureUrl}}"/>
+      <img style="width: 100%" src="{{Kid.pictureUrl}}"/>
     </div>
     <div class="col-8">
       <div class="container">
@@ -95,7 +103,12 @@
             Link de pago
           </label>
           <br/>
-          <img style="width: 400px;" src="https://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png"/>
+          <ng-container *ngIf="Kid.present.cost == 1000">
+            <a href="https://mpago.la/2SBx78h"><img style="max-width: 400px;width:100%;" src="https://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png"/></a>
+          </ng-container>
+          <ng-container *ngIf="Kid.present.cost == 1500">
+            <a href="https://mpago.la/2jMCfUY"><img style="max-width: 400px;width:100%;" src="https://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png"/></a>
+          </ng-container>
         </div>
 
         <div class="button-margin">
@@ -115,7 +128,11 @@
     </button>
   </div>
   <div class="modal-body">
-    <p> Muchas gracias! Nos vamos a contactar con vos. </p>
+    <p> ¡GRACIAS POR SUMARTE A ESCRIBIR LA HISTORIA MAS LINDA DE NAVIDAD!
+
+      ¡Último paso! Para completar el registro envíanos al 3434284676 o 3434714802 el comprobante de pago y nuestros ayudantes de Papá Noel se encargan de ir a los locales a comprar los regalos.
+
+      AVISO IMPORTANTE: De ser necesario, solo nos vamos a contactar con vos para pedir información de alguno de estos dos números que son los únicos autorizados para la campaña. </p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>

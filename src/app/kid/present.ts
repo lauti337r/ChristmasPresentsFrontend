@@ -6,7 +6,7 @@ export class Present {
   name: string = '';
   cost: number = 0;
   shopName: string = '';
-  presentGiverId: number = 0;
+  presentGiverId: number | null = null;
 
   // @ts-ignore
   kid: Kid = null;

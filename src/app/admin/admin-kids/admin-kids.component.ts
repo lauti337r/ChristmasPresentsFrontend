@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import * as _ from 'lodash';
 
 import {NgbdSortableHeader, SortEvent} from '../../shared/sortable-directive';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 const compare = (v1: string | number | boolean, v2: string | number | boolean) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -29,7 +30,8 @@ export class AdminKidsComponent implements OnInit {
   constructor(private presentsService: ChristmasPresentsService,
               public pipe: DecimalPipe,
               private modalService: NgbModal,
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
     this.Kids = [];
     this.FilteredKids = [];
     this.FormKid = new Kid();
@@ -41,9 +43,11 @@ export class AdminKidsComponent implements OnInit {
   }
 
   loadKids(): void {
+    this.spinner.show('AdminKidsSpinner');
     this.presentsService.getKidsList(true).subscribe((response: Kid[]) => {
       this.Kids = response;
       this.FilteredKids = this.Kids;
+      this.spinner.hide('AdminKidsSpinner');
     });
   }
 
@@ -70,8 +74,9 @@ export class AdminKidsComponent implements OnInit {
     this.action = 'Editar';
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       console.log(result);
+      this.spinner.show('AdminKidsSpinner');
       this.presentsService.updateKid(this.FormKid).subscribe((response: any) => {
-        console.log(response);
+        this.spinner.hide('AdminKidsSpinner');
       });
       console.log(result);
       this.closeResult = `Closed with: ${result}`;
@@ -81,14 +86,18 @@ export class AdminKidsComponent implements OnInit {
   }
 
   hideKid(selectedKid: Kid) {
+    this.spinner.show('AdminKidsSpinner');
     this.presentsService.hideKid(selectedKid.kidId).subscribe((response: any) => {
       selectedKid.hidden = 1;
+      this.spinner.hide('AdminKidsSpinner');
     });
   }
 
   unhideKid(selectedKid: Kid) {
+    this.spinner.show('AdminKidsSpinner');
     this.presentsService.unhideKid(selectedKid.kidId).subscribe((response: any) => {
       selectedKid.hidden = 0;
+      this.spinner.hide('AdminKidsSpinner');
     });
   }
 
@@ -110,7 +119,9 @@ export class AdminKidsComponent implements OnInit {
     this.action = 'Agregar';
     this.FormKid = new Kid();
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.spinner.show('AdminKidsSpinner');
       this.presentsService.addKid(this.FormKid).subscribe((response: any) => {
+        this.spinner.hide('AdminKidsSpinner');
         this.loadKids();
       });
     });

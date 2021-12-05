@@ -4,6 +4,7 @@ import { Kid } from '../kid/kid';
 import {PresentGiver} from './present-giver';
 import {ChristmasPresentsService} from '../christmas-presents.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-kid-details',
@@ -18,7 +19,10 @@ export class KidDetailsComponent implements OnInit {
   submitButtonDisabled: boolean;
   closeResult = '';
 
-  constructor(private modalService: NgbModal, private router: Router, private presentsService: ChristmasPresentsService) {
+  constructor(private modalService: NgbModal,
+              private router: Router,
+              private presentsService: ChristmasPresentsService,
+              private spinner: NgxSpinnerService) {
     this.presentGiver = new PresentGiver();
     this.mercadoPagoSelected = false;
     this.cashWireSelected = false;
@@ -67,7 +71,10 @@ export class KidDetailsComponent implements OnInit {
     } else {
       this.presentGiver.paymentMethod = 'REVIEW';
     }
+
+    this.spinner.show('KidDetailsSpinner');
     this.presentsService.submitGiver(this.Kid.kidId, this.presentGiver).subscribe((response: any) => {
+      this.spinner.hide('KidDetailsSpinner');
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
           console.log(result);
           this.router.navigate(['chicos']);

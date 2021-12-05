@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Kid} from '../kid/kid';
 import {ChristmasPresentsService} from '../christmas-presents.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-kids-list',
@@ -10,8 +11,11 @@ import {Router} from '@angular/router';
 })
 export class KidsListComponent implements OnInit {
   kids: Kid[];
+  spinnerTemplate = '<img src=\'assets/spinner.gif\' />';
 
-  public constructor(private apiService: ChristmasPresentsService, private router: Router) {
+  public constructor(private apiService: ChristmasPresentsService,
+                     private router: Router,
+                     private spinner: NgxSpinnerService) {
     this.kids = [];
     this.LoadList();
   }
@@ -20,8 +24,10 @@ export class KidsListComponent implements OnInit {
   }
 
   private LoadList() {
+    this.spinner.show('KidsListSpinner');
     this.apiService.getKidsList(false).subscribe((response: Kid[]) => {
       this.kids = response;
+      this.spinner.hide('KidsListSpinner');
     });
   }
 

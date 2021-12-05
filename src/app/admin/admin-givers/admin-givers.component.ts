@@ -6,6 +6,7 @@ import {ChristmasPresentsService} from '../../christmas-presents.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbdSortableHeader, SortEvent} from '../../shared/sortable-directive';
 import * as _ from 'lodash';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 const compare = (v1: string | number | boolean, v2: string | number | boolean) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -24,7 +25,8 @@ export class AdminGiversComponent implements OnInit {
 
   constructor(private presentsService: ChristmasPresentsService,
               private modalService: NgbModal,
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
     this.Givers = [];
     this.FilteredGivers = [];
     this.headers = new QueryList<NgbdSortableHeader>();
@@ -35,9 +37,11 @@ export class AdminGiversComponent implements OnInit {
   }
 
   loadGivers(): void {
+    this.spinner.show('AdminGiversSpinner');
     this.presentsService.getPresentGiversList().subscribe((response: PresentGiver[]) => {
       this.Givers = response;
       this.FilteredGivers = this.Givers;
+      this.spinner.hide('AdminGiversSpinner');
     });
   }
 
@@ -116,14 +120,18 @@ export class AdminGiversComponent implements OnInit {
   }
 
   setPayment(presentGiver: PresentGiver) {
+    this.spinner.show('AdminGiversSpinner');
     this.presentsService.setPayment(presentGiver.presentGiverId).subscribe((response: any) => {
       presentGiver.paymentMade = 1;
+      this.spinner.hide('AdminGiversSpinner');
     });
   }
 
   unsetPayment(presentGiver: PresentGiver) {
+    this.spinner.show('AdminGiversSpinner');
     this.presentsService.unsetPayment(presentGiver.presentGiverId).subscribe((response: any) => {
       presentGiver.paymentMade = 0;
+      this.spinner.hide('AdminGiversSpinner');
     });
   }
 }

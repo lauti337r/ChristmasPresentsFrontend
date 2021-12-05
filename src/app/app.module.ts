@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { AdminKidsComponent } from './admin/admin-kids/admin-kids.component';
 import { AdminGiversComponent } from './admin/admin-givers/admin-givers.component';
 import {DecimalPipe} from '@angular/common';
 import {NgbdSortableHeader} from './shared/sortable-directive';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,11 @@ import {NgbdSortableHeader} from './shared/sortable-directive';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxSpinnerModule
   ],
   providers: [ChristmasPresentsService, DecimalPipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

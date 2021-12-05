@@ -1,3 +1,12 @@
+<ngx-spinner name="AdminKidsSpinner"
+             bdColor="rgba(164, 164, 164, 0.45)"
+             [fullScreen]="true">
+  <div style="background-color: white;border-color:black; border-radius: 5px; border-width: 2px;">
+    <img style="height: calc(10vh);width: calc(10vh);" src='assets/spinner.gif' />
+    <p style="text-align: center;"> Cargando... </p>
+  </div>
+</ngx-spinner>
+
 <div class="container top-margin">
   <h1>Chicos</h1>
   <div class="row">
@@ -78,16 +87,12 @@
         <input type="text" class="form-control" id="inputName" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.name">
       </div>
       <div class="form-group">
-        <label for="inputAge">Edad</label>
-        <input type="text" class="form-control" id="inputAge" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.age">
-      </div>
-      <div class="form-group">
         <label for="inputArea">Barrio</label>
         <input type="text" class="form-control" id="inputArea" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.area">
       </div>
       <div class="form-group">
-        <label for="inputNote">Nota</label>
-        <textarea class="form-control" id="inputNote" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.note" rows="3"></textarea>
+        <label for="inputPresentCost">Numero de carta</label>
+        <input type="number" class="form-control" id="inputNumber" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.number">
       </div>
       <div class="form-group">
         <label for="inputPresentName">Regalo</label>
@@ -100,6 +105,10 @@
       <div class="form-group">
         <label for="inputPresentCost">Costo</label>
         <input type="text" class="form-control" id="inputPresentCost" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.present.cost">
+      </div>
+      <div class="form-group">
+        <label for="inputPresentCost">Url de la foto</label>
+        <input type="text" class="form-control" id="inputPictureUrl" [ngModelOptions]="{standalone: true}" [(ngModel)]="FormKid.pictureUrl">
       </div>
     </form>
   </div>
