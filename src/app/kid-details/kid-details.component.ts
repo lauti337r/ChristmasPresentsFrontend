@@ -5,7 +5,6 @@ import {PresentGiver} from './present-giver';
 import {ChristmasPresentsService} from '../christmas-presents.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Error315Component} from '../shared/error315/error315.component';
 
 @Component({
   selector: 'app-kid-details',
@@ -13,7 +12,6 @@ import {Error315Component} from '../shared/error315/error315.component';
   styleUrls: ['./kid-details.component.css']
 })
 export class KidDetailsComponent implements OnInit {
-  @ViewChildren(Error315Component) error315Modal: Error315Component = new Error315Component();
   mercadoPagoSelected: boolean;
   cashWireSelected: boolean;
   Kid: Kid;

@@ -100,7 +100,7 @@
 
         <div class="form-group" *ngIf="mercadoPagoSelected">
           <label>
-            Link de pago
+            <b>Link de pago</b>
           </label>
           <br/>
           <ng-container *ngIf="Kid.present.cost == 1000">
@@ -109,6 +109,14 @@
           <ng-container *ngIf="Kid.present.cost == 1500">
             <a href="https://mpago.la/2jMCfUY"><img style="max-width: 400px;width:100%;" src="https://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png"/></a>
           </ng-container>
+        </div>
+        <div class="form-group" *ngIf="cashWireSelected">
+          <label><b>Datos de la cuenta para transferencia:</b></label><br>
+           - CUIT: 30715425560<br>
+           - TIPO DE CUENTA: Caja de Ahorro<br>
+           - NRO DE CUENTA: 001003760747<br>
+           - CBU: 3860001003000037607473<br>
+           - ALIAS: sumadevoluntades<br>
         </div>
 
         <div class="button-margin">

@@ -18,7 +18,6 @@ import { AdminGiversComponent } from './admin/admin-givers/admin-givers.componen
 import {DecimalPipe} from '@angular/common';
 import {NgbdSortableHeader} from './shared/sortable-directive';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import { Error315Component } from './shared/error315/error315.component';
 
 @NgModule({
   declarations: [

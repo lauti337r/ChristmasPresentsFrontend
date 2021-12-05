@@ -154,6 +154,9 @@ export class AdminKidsComponent implements OnInit {
       } else if (column == 'hidden') {
         result = compare(k1.hidden, k2.hidden);
         return direction === 'asc' ? result : -result;
+      } else if (column == 'hasGiver') {
+        result = compare(k1.present != null && k1.present.presentGiverId != null, k2.present != null && k2.present.presentGiverId != null);
+        return direction === 'asc' ? result : -result;
       } else return 1;
     }));
     this.applyFilter();
