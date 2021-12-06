@@ -7,7 +7,7 @@
   </div>
 </ngx-spinner>
 
-<div class="container top-margin">
+<div class="margin">
   <h1>Padrinos</h1>
   <div class="row">
     <div class="col-2">
@@ -33,24 +33,30 @@
       <th scope="col">E-mail</th>
       <th scope="col">Carta</th>
       <th scope="col" sortable="paymentMethod" (sort)="onSort($event)">Metodo de pago</th>
+      <th scope="col" sortable="kidNumber" (sort)="onSort($event)">Número de carta</th>
       <th scope="col" sortable="kidName" (sort)="onSort($event)">Apadrinado</th>
       <th scope="col" sortable="kidArea" (sort)="onSort($event)">Barrio</th>
+      <th scope="col" sortable="kidArea" (sort)="onSort($event)">Regalo</th>
+      <th scope="col" sortable="kidArea" (sort)="onSort($event)">Monto</th>
       <th scope="col" sortable="paymentMade" (sort)="onSort($event)">Pago completado</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let giver of FilteredGivers; index as i">
       <th scope="row">{{giver.presentGiverId}}</th>
-      <td>{{giver.name}}</td>
-      <td>{{giver.contactPhone}}</td>
-      <td>{{giver.contactEmail}}</td>
-      <td><button type="button" class="btn btn-secondary" (click)="showLetter(content, giver.letter)">Ver carta</button></td>
-      <td>{{giver.paymentMethod == 'EFECTIVO_TRANSFERENCIA' ? 'Efectivo/Transferencia' : giver.paymentMethod == 'MERCADOPAGO' ? 'Mercado pago' : 'REVISAR'}}</td>
-      <td>{{giver.present?.kid?.name}}</td>
-      <td>{{giver.present?.kid?.area}}</td>
-      <td>
-          <button *ngIf="giver.paymentMade == 1" type="button" class="btn btn-danger button-margin" (click)="unsetPayment(giver)">Desmarcar el pago</button>
-          <button *ngIf="giver.paymentMade == 0" type="button" class="btn btn-success button-margin" (click)="setPayment(giver)">Marcar el pago</button>
+      <td style="font-size:smaller;">{{giver.name}}</td>
+      <td style="font-size:smaller;">{{giver.contactPhone}}</td>
+      <td style="font-size:smaller;">{{giver.contactEmail}}</td>
+      <td style="font-size:smaller;"><button type="button" class="btn btn-secondary" (click)="showLetter(content, giver.letter)"><span style="font-size:smaller;">Ver carta</span></button></td>
+      <td style="font-size:smaller;">{{giver.paymentMethod == 'EFECTIVO_TRANSFERENCIA' ? 'Efectivo/Transferencia' : giver.paymentMethod == 'MERCADOPAGO' ? 'Mercado pago' : 'REVISAR'}}</td>
+      <td style="font-size:smaller;">{{giver.present?.kid?.number}}</td>
+      <td style="font-size:smaller;">{{giver.present?.kid?.name}}</td>
+      <td style="font-size:smaller;">{{giver.present?.kid?.area}}</td>
+      <td style="font-size:smaller;">{{giver.present?.name}}</td>
+      <td style="font-size:smaller;">{{giver.present?.cost}}</td>
+      <td style="font-size:smaller;">
+          <button *ngIf="giver.paymentMade == 1" type="button" class="btn btn-danger button-margin" (click)="unsetPayment(giver)"><span style="font-size:smaller;">Desmarcar el pago</span></button>
+        <button *ngIf="giver.paymentMade == 0" type="button" class="btn btn-success button-margin" (click)="setPayment(giver)"><span style="font-size:smaller;">Marcar el pago</span></button>
       </td>
     </tr>
     </tbody>
