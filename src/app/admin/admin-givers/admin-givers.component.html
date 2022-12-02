@@ -19,6 +19,7 @@
           Buscar: <input class="form-control ml-2" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter"/>
           <button type="button" class="btn btn-info button-margin" (click)="search()">Buscar</button>
           <button type="button" class="btn btn-info button-margin" (click)="resetSearch()">Reiniciar búsqueda</button>
+          <button type="button" class="btn btn-info button-margin" (click)="exportToSpreadsheet()">Exportar a excel</button>
         </div>
       </form>
     </div>
@@ -39,6 +40,7 @@
       <th scope="col" sortable="kidArea" (sort)="onSort($event)">Regalo</th>
       <th scope="col" sortable="kidArea" (sort)="onSort($event)">Monto</th>
       <th scope="col" sortable="paymentMade" (sort)="onSort($event)">Pago completado</th>
+      <th scope="col">Eliminar padrino</th>
     </tr>
     </thead>
     <tbody>
@@ -57,6 +59,9 @@
       <td style="font-size:smaller;">
           <button *ngIf="giver.paymentMade == 1" type="button" class="btn btn-danger button-margin" (click)="unsetPayment(giver)"><span style="font-size:smaller;">Desmarcar el pago</span></button>
         <button *ngIf="giver.paymentMade == 0" type="button" class="btn btn-success button-margin" (click)="setPayment(giver)"><span style="font-size:smaller;">Marcar el pago</span></button>
+      </td>
+      <td style="font-size:smaller;">
+        <button type="button" class="btn btn-danger button-margin" (click)="deleteGiver(giver)"><span style="font-size:smaller;">Eliminar padrino</span></button>
       </td>
     </tr>
     </tbody>

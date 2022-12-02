@@ -171,4 +171,18 @@ export class ChristmasPresentsService {
       this.router.navigate(['/admin/login']);
     }
   }
+
+  deleteGiver(presentGiverId: number): any {
+    if (this.isAuthenticated()) {
+      let authHeader = localStorage.getItem('authHeader') || '';
+      let headers = { headers: new HttpHeaders({'Authorization': authHeader})};
+      console.log(headers);
+      console.log(this.authHeader);
+
+      const url = `${this.apiUrl}api/PresentGivers/${presentGiverId}`;
+      return this.http.delete(url, headers);
+    } else {
+      this.router.navigate(['/admin/login']);
+    }
+  }
 }
